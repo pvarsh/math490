@@ -72,7 +72,8 @@ p2.21bc = matrix(c(81,75,87,86),
                dimnames = list(Gender=c("Men","Women"),Reason=c("B","C")))
 #Table containing all column but B and C combined
 
-p2.21abc = matrix(c(60,81+75,75,87+86),
+p2.21abc = matrix(c(60, 81+75,
+                    75, 87+86),
                nrow=2,
                byrow=TRUE, 
                dimnames = list(Gender=c("Men","Women"),Reason=c("A","B+C")))
@@ -87,6 +88,10 @@ chisq.test(p2.21abc)
 G2.test(p2.21)
 G2.test(p2.21bc)
 G2.test(p2.21abc)
+
+####### Peter's code
+standResid(p2.21abc)
+####### End Peter's code
 
 ####################################################################################
 ### Question 2.22
@@ -238,4 +243,36 @@ odds.ratio = function(mat, conf.level = 0.95, noPrint = FALSE){
     print(out) # print can be suppressed by noPrint parameter 
   }
   return(out) 
+}
+
+standResid = function(mat){
+  # author: Peter
+  # parameter:
+  #   mat: contingency table of observations
+  # returns:
+  #   matrix of standardized residuals
+  # calls:
+  #   marginals()
+  
+  margMat = marginals(mat)
+  pMat = mat / sum(mat)
+  p.i.plus = rowSums(mat)/margMat$n
+  p.plus.j = colSums(mat)/margMat$n
+  print("testing")
+  
+  resid = mat - margMat$exp * margMat$n
+  SE = sqrt(margMat$exp * margMat$n * ((1 - p.i.plus) %*% t(1 - p.plus.j)))
+  
+  return(resid/SE)
+}
+
+marginals = function(mat){
+  # author: Peter
+  # returns a list with row marginal, column marginal, expected values of joint under independence
+  colMarg = colSums(mat)/sum(mat)
+  rowMarg = rowSums(mat)/sum(mat)
+  expMat = rowMarg %*% t(colMarg)
+  
+  return(list(original = mat, row = rowMarg, col = colMarg, exp = expMat, n = sum(mat)))
+  
 }
