@@ -35,7 +35,7 @@ print(p2.18obsCalculated)
 # b. For testing independence, X^2 = 73.4. Report the degrees of freedom and the P-value and interpret.
 cat("# b. For testing independence, X^2 = 73.4. Report the degrees of freedom and the P-value and interpret.
 ")
-cat("For a 3x3 table there are 2*2 = 4 degrees of freedom").
+cat("For a 3x3 table there are 2*2 = 4 degrees of freedom.")
 cat("P-value:", 1-pchisq(73.4, df = 2), "\nWe can reject the null hypothesis of independence")
 
 # c. Interpret the standardized residuals in the corner cells having counts 21 and 83.
