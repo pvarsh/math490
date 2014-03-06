@@ -302,7 +302,7 @@ procfreq=function(x, digits=4) # create a fuction similar to the proc freq is SA
        likelihood.ratio.stat=G2,
        df=df)}
 
-odds.ratio = function(mat, conf.level = 0.95, noPrint = FALSE){
+odds.ratio = function(mat, conf.level = 0.95, noPrint = TRUE){
   #  matrix mat must contain counts of out comes:
   #     row1: treatment
   #     row2: control
