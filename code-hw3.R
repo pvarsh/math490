@@ -124,6 +124,73 @@ p2.22iii = matrix(c(105+12,8+2,18+47,19+52,0,13),
                dimnames = list(Diagnosis=c("Scizophrenia + Affective disorder","Neurosis + Personality disorder","Special symtomps"),
                                Drugs=c("Drugs","No Drugs")))
 
+##############
+# Problem 2.22
+# Code by Peter
+##############
+
+p2.22 = matrix(c(105, 8,
+                 12, 2,
+                 18, 19,
+                 47, 52,
+                 0, 13), byrow = T, nrow = 5,
+               dimnames = list("diagnosis" = c("schizophrenia",
+                                               "affective disorder",
+                                               "neurosis",
+                                               "personality disorder",
+                                               "special symptoms"),
+                               "treatment" = c("drugs",
+                                               "no drugs")))
+
+# a. Conduct a test of independence and interpret the P-value
+print(p2.22)
+chisq.test(p2.22)
+
+# b. Obtain standardized residuals and interpret
+
+# changing the count in the 0-cell to 0.5
+# p2.22a = p2.22
+# p2.22a[5,1] = 0.5
+# print(p2.22a)
+# chisq.test(p2.22a)
+# G2.test(p2.22a)
+# standResid(p2.22a)
+
+# c. Partition chi-squared into three components to describe differences and similarities among the diagnoses by comparing
+
+# c.i. the first two rows
+standResid(p2.22[1:2, ])
+chisq.test(p2.22[1:2, ])
+
+# c.ii. the third and fourth rows
+standResid(p2.22[3:4, ])
+chisq.test(p2.22[3:4, ])
+
+# c.iii. the last row to the first and second rows combined, and the third and fourth rows combined 
+p2.22iii.a = colSums(p2.22[c(1,2), ])
+p2.22iii.a = rbind(p2.22iii.a, p2.22[5,])
+p2.22iii.a
+standResid(p2.22iii.a)
+chisq.test(p2.22iii.a)
+
+p2.22iii.b = colSums(p2.22[c(3,4), ])
+p2.22iii.b = rbind(p2.22iii.b, p2.22[5,])
+p2.22iii.b
+standResid(p2.22iii.b)
+chisq.test(p2.22iii.b)
+
+# changing the zero count in special symptoms to 0.5
+# p2.22iii.b[2,1] = 0.5
+# p2.22iii.b
+# chisq.test(p2.22iii.b)
+
+##############
+# End of Code by Peter
+##############
+
+
+
+
 ####################################################################################
 ### Question 2.30
 
