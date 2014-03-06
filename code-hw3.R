@@ -193,14 +193,20 @@ chisq.test(p2.22iii.b)
 
 ####################################################################################
 ### Question 2.30
+# Table 2.17 contains results of a study comparing
+# radiation therapy with surgery in treating cancer of the larynx.
+# Use Fisher's exact test to test H_0: theta = 1 against H_a: theta > 1.
+# Interpret results
 
-p2.30 = matrix(c(21,2,15,3),
+p2.30 = matrix(c(21, 2,
+                 15, 3),
                 nrow=2,
                 byrow=TRUE, 
                 dimnames = list(TreatmentType=c("Surgery","Radiation therapy"),
                                 CaseControl=c("Cancer Controlled","Cancer Not Controlled")))
 
 fisher.test(p2.30,alternative="greater")
+fisherExact(p2.30) #using Peter's function. Answer agrees with fisher.test()
 
 
 ####################################################################################
@@ -342,4 +348,28 @@ marginals = function(mat){
   
   return(list(original = mat, row = rowMarg, col = colMarg, exp = expMat, n = sum(mat)))
   
+}
+fisherExact = function(mat){
+  # author: Peter
+  # One-sided (greater) Fisher's exact test for 2x2 contingency tables
+  
+  #cat("\nmat: ")
+  #print(mat)
+  n = sum(mat)
+  #cat("\nn:",n)
+  observed = mat[1][1]
+  rs = rowSums(mat)
+  #cat("\nrs:", rs)
+  cs = colSums(mat)
+  p = 0
+  #cat("\nStarting for loop\n")
+  for (i in mat[1][1]:rs[1]){
+    #print(i)
+    p = p + choose(rs[1], i) * choose(rs[2], cs[1] - i) / choose(n, cs[1])
+  }
+  
+  #return(choose(rowSums(mat)[1], mat[1,1]) * choose(rowSums(mat)[2], colSums(mat)[1] - mat[1][1]) / choose(sum(mat), colSums(mat)[1]))
+  #cat("\nP-value =",p, "\n")
+  names(p) = "P-Value"
+  return(p)
 }
