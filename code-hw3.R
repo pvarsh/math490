@@ -142,9 +142,6 @@ fisherExact = function(mat){
 
 ### Question 2.18
 
-###########################################################################################
-# Code: Peter Varshavsky
-###########################################################################################
 # a. Show how to obtain the estimated expected cell countof 35.8 for the first cell
 
 # create matrix of expected counts
@@ -187,9 +184,6 @@ cat("Residuals are positive and of high absolute value, again giving strong evid
     The positive values suggest that these categories are overrepresented in the sample, or
     that there are more happy rich and unhappy poor than would be observed under independence.")
 
-###########################################################################################
-# End Code: Peter Varshavsky
-###########################################################################################
 
 
 ####################################################################################
@@ -217,43 +211,6 @@ standResid(p2.21abc)
 ####################################################################################
 ### Question 2.22
 
-p2.22 = matrix(c(105,8,12,2,18,19,47,52,0,13),
-               nrow=5,
-               byrow=TRUE, 
-               dimnames = list(Diagnosis=c("Scizophrenia",
-                                           "Affective disorder",
-                                           "Neurosis",
-                                           "Personality disorder",
-                                           "Special symtomps"),
-                               Drugs=c("Drugs",
-                                       "No Drugs")))
-
-procfreq(p2.22)$chi.square
-procfreq(p2.22)$likelihood.ratio.stat
-procfreq(p2.22)$adjusted.residuals
-
-p2.22i = matrix(c(105,8,12,2),
-               nrow=2,
-               byrow=TRUE, 
-               dimnames = list(Diagnosis=c("Scizophrenia","Affective disorder"),
-                               Drugs=c("Drugs","No Drugs")))
-
-p2.22ii = matrix(c(18,19,47,52),
-               nrow=2,
-               byrow=TRUE, 
-               dimnames = list(Diagnosis=c("Neurosis","Personality disorder"),
-                               Drugs=c("Drugs","No Drugs")))
-
-p2.22iii = matrix(c(105+12,8+2,18+47,19+52,0,13),
-               nrow=3,
-               byrow=TRUE, 
-               dimnames = list(Diagnosis=c("Scizophrenia + Affective disorder","Neurosis + Personality disorder","Special symtomps"),
-                               Drugs=c("Drugs","No Drugs")))
-
-##############
-# Problem 2.22
-# Code by Peter
-##############
 
 p2.22 = matrix(c(105, 8,
                  12, 2,
@@ -274,13 +231,6 @@ chisq.test(p2.22)
 
 # b. Obtain standardized residuals and interpret
 standResid(p2.22)
-# changing the count in the 0-cell to 0.5
-# p2.22a = p2.22
-# p2.22a[5,1] = 0.5
-# print(p2.22a)
-# chisq.test(p2.22a)
-# G2.test(p2.22a)
-# standResid(p2.22a)
 
 # c. Partition chi-squared into three components to describe differences and similarities among the diagnoses by comparing
 
@@ -305,16 +255,6 @@ standResid(p2.22iii.b)
 p2.22iii.b = p2.22iii.b + 0.5 ### adding 0.5 for chi-square test
 chisq.test(p2.22iii.b)
 
-# changing the zero count in special symptoms to 0.5
-# p2.22iii.b[2,1] = 0.5
-# p2.22iii.b
-# chisq.test(p2.22iii.b)
-
-##############
-# End of Code by Peter
-##############
-
-
 
 
 ####################################################################################
@@ -332,7 +272,7 @@ p2.30 = matrix(c(21, 2,
                                 "Cancer Controlled" = c("Yes","No"))) #### PV: I renamed the variable name CaseControl
 
 
-fisher.test(p2.30,alternative="greater")
+#fisher.test(p2.30,alternative="greater")
 fisherExact(p2.30) #using Peter's function. Answer agrees with fisher.test()
 
 
@@ -340,7 +280,6 @@ fisherExact(p2.30) #using Peter's function. Answer agrees with fisher.test()
 ### Question 2.33
 
 
-##### Begin Peter code
 ##### using 3-dimensional array following Alexandra's code
 dp = c(19, 132, 11, 63, 0, 9, 6, 103)
 dp = array(dp, dim = c(2,2,2))
@@ -349,7 +288,6 @@ dimnames(dp) = list(DeathPen = c("yes", "no"),
                      Victim = c("white", "black"))
 dp_flat = ftable(dp, row.vars = c("Victim", "Defendant"), col.vars = "DeathPen")
 dp_flat
-##### End Peter code
 
 #Partial table victim = white
 p2.33w = matrix(c(19,132,11,52),
@@ -377,6 +315,5 @@ odds.ratio(p2.33m)
 
 ####################################################################################
 ### Question 2.38
-
 ####################################################################################
 
