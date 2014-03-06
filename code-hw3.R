@@ -203,7 +203,8 @@ p2.30 = matrix(c(21, 2,
                 nrow=2,
                 byrow=TRUE, 
                 dimnames = list(TreatmentType=c("Surgery","Radiation therapy"),
-                                CaseControl=c("Cancer Controlled","Cancer Not Controlled")))
+                                "Cancer Controlled" = c("Yes","No"))) #### PV: I renamed the variable name CaseControl
+
 
 fisher.test(p2.30,alternative="greater")
 fisherExact(p2.30) #using Peter's function. Answer agrees with fisher.test()
@@ -211,7 +212,19 @@ fisherExact(p2.30) #using Peter's function. Answer agrees with fisher.test()
 
 ####################################################################################
 ### Question 2.33
-#Partial table victiom = white
+
+
+##### Begin Peter code
+##### using 3-dimensional array following Alexandra's code
+dp = c(19, 132, 11, 63, 0, 9, 6, 103)
+dp = array(dp, dim = c(2,2,2))
+dimnames(dp) = list(DeathPen = c("yes", "no"),
+                     Defendant = c("white", "black"),
+                     Victim = c("white", "black"))
+dp_flat = ftable(dp, row.vars = c("Victim", "Defendant"), col.vars = "DeathPen")
+##### End Peter code
+
+#Partial table victim = white
 p2.33w = matrix(c(19,132,11,52),
                nrow=2,
                byrow=TRUE, 
