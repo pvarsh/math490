@@ -92,6 +92,37 @@ p.identiii
 ########################################
 
 ### Question 3.8
+#a. Report the fit for the probit model, with weight predictor.
+
+########################################
+# Mirai Begin                          #   
+########################################
+## Question 3.7
+crab = horseshoecrabs
+Y = 1*(crab$Satellites>0)
+table.crab=data.frame(crab$Weight, Y)
+table.crab=round(table.crab,2)
+names(table.crab) <- c("Weight", "Y")
+
+mod.ident1=lm(Y~Weight, data = table.crab)
+g=summary(mod.ident1)
+
+## Quesion 3.8
+crab.probit=glm(Y~Weight, family=binomial(link="probit"), data=table.crab )
+summary(crab.probit)
+
+
+
+
+
+########################################
+# Mirai End                            #    
+########################################
+#b. Find ^?? at the highest observed weight, 5.20 kg.
+#c. Describe the weight effect by finding the difference between the ^?? values
+#   at the upper and lower quartiles of weight, 2.85 and 2.00 kg.
+#d. Interpret the parameter estimates using characteristics of the normal cdf
+#   that describes the response curve.
 
 
 
