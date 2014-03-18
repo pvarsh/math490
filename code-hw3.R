@@ -1,4 +1,4 @@
-### Homework Chapter 2-2
+### Homework 3 Chapter 2-2
 ### Mirai Furukawa, Scott Thomas, Peter Varshavsky
 ### 2014/03/06
 ### Questions: 2.18, 2.21, 2.22, 2.30, 2.33, 2.38
