@@ -145,3 +145,42 @@ fisherExact = function(mat){
 
 ### End: new functions
 #############################################################
+
+
+### Exercise 3.5
+### Code for this exercise is taken from Alexandra's snoring_inference.R
+
+cat("\nEXERCISE 3.5\n")
+#imput snoring data for glm 
+snoreScores1 = c(0,2,4,6)
+snoreScores2 = c(0,1,2,3)
+snoreScores3 = c(0,100,200,300)
+yes = c(24,35,21,30)
+no = c(1355,603,192,224)
+#prop.yes = yes/(yes+no)
+
+snoreDF1 = data.frame(snore = snoreScores1, yes, no)
+snoreDF2 = data.frame(snore = snoreScores2, yes, no)
+snoreDF3 = data.frame(snore = snoreScores3, yes, no)
+
+# Fit the linear, logistic and probit models
+# snoreScores1
+snoringGLM1 = glm(cbind(yes, no)~snore,
+                 family = binomial(link = "identity"),
+                 data = snoreDF1 )
+g1 = summary(snoringGLM1)
+g1$coefficients
+
+# snoreScores2
+snoringGLM2 = glm(cbind(yes, no)~snore,
+                 family = binomial(link="identity"),
+                 data = snoreDF2 )
+g2 = summary(snoringGLM2)
+g2$coefficients
+
+# snoreScores3
+snoringGLM3 = glm(cbind(yes, no)~snore,
+                 family = binomial(link="identity"),
+                 data = snoreDF3 )
+g3 = summary(snoringGLM3)
+g3$coefficients
