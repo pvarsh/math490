@@ -191,14 +191,35 @@ g3$coefficients
 
 cat("\nEXERCISE 3.8\n")
 
+# loading data
 require(icda)
 data(horseshoecrabs)
 crabs = horseshoecrabs
+
+# new variable binSat (Binary Satellite):
+# 0 for 0 satellites, 1 for > 0 satellites
 crabs$binSat = as.numeric(crabs$Satellites > 0)
-crabs$binSat
-head(crabs)
+
+# fit GLM model with probit link and binomial family
 crabsGlm = glm(binSat~Weight,
                family = binomial(link = "probit"),
                data = crabs)
+
+# plot summary of GLM
+# a. Report the fit for the probit model, with weight predictor.
 summary(crabsGlm)
--2.2384 + 1.0990*5.20
+
+# b. Find π^ at the highest observed weight, 5.20 kg.
+x = 5.20
+RHS = crabsGlm$coeff[1] + crabsGlm$coeff[2] * x
+cat("\nprobit[pi] =", crabsGlm$coeff[1], "+", crabsGlm$coeff[2], "* x")
+cat("\nFor x =", x)
+cat("\nprobit[pi] =", RHS)
+cat("\npi(x) =", pnorm(RHS))
+
+# c. Describe the weight effect by finding the difference between the π^ values
+# at the upper and lower quartiles of weight, 2.85 and 2.00 kg.
+
+quartiles = quantile(crabs$Weight)[c(2, 4)]
+quartiles
+pnorm(crabsGlm$coeff[1] + crabsGlm$coeff[2] * quartiles)
