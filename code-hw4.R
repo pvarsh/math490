@@ -184,3 +184,21 @@ snoringGLM3 = glm(cbind(yes, no)~snore,
                  data = snoreDF3 )
 g3 = summary(snoringGLM3)
 g3$coefficients
+
+
+### Exercise 3.8
+### Code for this exercise is taken from Alexandra's snoring_inference.R
+
+cat("\nEXERCISE 3.8\n")
+
+require(icda)
+data(horseshoecrabs)
+crabs = horseshoecrabs
+crabs$binSat = as.numeric(crabs$Satellites > 0)
+crabs$binSat
+head(crabs)
+crabsGlm = glm(binSat~Weight,
+               family = binomial(link = "probit"),
+               data = crabs)
+summary(crabsGlm)
+-2.2384 + 1.0990*5.20
