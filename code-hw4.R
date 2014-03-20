@@ -154,7 +154,7 @@ cat("\nEXERCISE 3.5\n")
 #imput snoring data for glm 
 snoreScores1 = c(0,2,4,6)
 snoreScores2 = c(0,1,2,3)
-snoreScores3 = c(0,100,200,300)
+snoreScores3 = c(1,2,3,4)
 yes = c(24,35,21,30)
 no = c(1355,603,192,224)
 #prop.yes = yes/(yes+no)
