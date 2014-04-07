@@ -27,3 +27,13 @@ summary(snoringGLM1)
 #glm(cbind(sdf[[0]],sdf[[1]])~sdf$snore, family=binomial(link = 'identity'))
 
 #sdf$yes /(sdf$yes + sdf$no)
+
+
+########## GENERATING A PROBIT MODEL
+
+x = runif(200, 1.2, 5.2)
+y = x + rnorm(length(x), 0, 0.1)
+y_ = as.numeric(y > 3)
+testGlm = glm(y_~x, family = binomial(link = "logit"))
+summary(testGlm)
+plot(x, y_)
