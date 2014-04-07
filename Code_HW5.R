@@ -16,23 +16,25 @@ crab=horseshoecrabs
 mod.fit<-glm(Satellites~Weight, data=crab, family=poisson)
 g=summary(mod.fit)
 
-cat("The prediction equation is Y = ",g$coef[1,1],"",g$coef[2,1],"x")
+cat("The prediction equation is log(Y) =", g$coef[1,1], "+", g$coef[2,1],"x")
 
 #prediction (b)
-predict(mod.fit,  data.frame(Weight=2.44),type="response")
+predict(mod.fit,  data.frame(Weight=2.44), type="response")
 
 #CI for beta (c)
-CI = g$coef[2,1] + (qnorm(1-0.05) * g$coef[2,2] * c(-1,1))
-cat("95% confidence interval for beta is (",CI[1],",",CI[2],").")
-cat("95% confidence interval for multiplicative effect on mean is (",exp(CI[1]),",",exp(CI[2]),").")
+CI = g$coef[2,1] + (qnorm(1-0.025) * g$coef[2,2] * c(-1,1)) # this is a two-sided confidence interval, so we need to have 1-alpha/2, where alpha = 0.5
+cat("95% confidence interval for beta is (",CI[1],", ",CI[2],").", sep = "")
+cat("95% confidence interval for multiplicative effect on mean is (",exp(CI[1]),", ",exp(CI[2]),").", sep = "")
 
 #Wald test (d)
+# Isn'd wald test 
 z = g$coef[2,1] / g$coef[2,2]
-p_val=2*(1-pnorm(z))
-p_val=g$coef[2,4]
+p_val = 2 * (1-pnorm(z))
+p_val = g$coef[2,4]
 cat("p-value of the test is ",g$coef[2,4])
 
-#Log likely food ratio test (e)
+#Log likely food ratio test (e) 
+# likely food? do you use speech recognition to code ;)
 LLstat=(g$null.deviance-g$deviance)
 p_val=1-pchisq(LLstat, 1)
 
@@ -68,3 +70,6 @@ arrests=c(308,197,184,149,132,126,110,101,99,81,79,78,68,67,60,57,55,44,38,35,29
 prop.yes=yes/(yes+no)
 
 soccer=data.frame(team, attendance, arrests)
+soccer
+
+
