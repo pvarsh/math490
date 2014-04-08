@@ -89,5 +89,20 @@ years.nsm = c(18793, 10673, 5710, 2585, 1462)
 years.sm = c(52407, 43248, 28612, 12663, 5317)
 deaths.nsm = c(2, 12, 28, 28, 31)
 deaths.sm = c(32, 104, 206, 186, 102)
-smoker.deaths = data.frame(age, years.nsm, years.sm, deaths.nsm, deaths.sm)
+smoke = data.frame(age, years.nsm, years.sm, deaths.nsm, deaths.sm)
 
+smoke$rate.nsm = smoke$deaths.nsm / years.nsm * 1000
+smoke$rate.sm = smoke$deaths.sm / years.sm * 1000
+smoke$rate.ratio = smoke$rate.sm / smoke$rate.nsm
+smoke
+
+### the following code is likely not correct (Peter)
+smoke1 = data.frame(age,
+                    years = c(smoke$years.nsm, smoke$years.sm),
+                    deaths = c(deaths.nsm, deaths.sm),
+                    smoker = c(rep(0, length(years.nsm)), rep(1, length(years.sm))))
+
+smoke1$rate = smoke1$deaths * 1000 / smoke1$years
+smoke1.pois = glm(rate ~ age + smoker, family = poisson(link = log), data = smoke1)
+smoke.pois = glm(rate)
+### the above code is likely not correct (Peter)
