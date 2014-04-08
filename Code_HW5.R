@@ -69,7 +69,19 @@ attendance=c(404,286,443,169,222,150,321,189,258,223,211,215,108,210,224,211,168
 arrests=c(308,197,184,149,132,126,110,101,99,81,79,78,68,67,60,57,55,44,38,35,29,20,19)
 prop.yes=yes/(yes+no)
 
+#### Peter code. Doesn't work ####
 soccer=data.frame(team, attendance, arrests)
-soccer
+soccer.model.offset = glm(arrests~offset(attendance), data = soccer, family = poisson)
+soccer.model = glm(arrests~attendance, data = soccer, family = poisson)
+summary(soccer.model)
 
+plot(soccer$attendance, soccer$arrests)
+lines(predict(soccer.model, type = "response"))
+lines(predict(soccer.model.offset, type = "response"))
+lines()
+curve(predict(soccer.model, data.frame(width=(300))))
+
+#### End of Peter code. ####
+
+3.20
 
