@@ -71,9 +71,8 @@ prop.yes=yes/(yes+no)
 
 #### Peter code. Doesn't work ####
 soccer=data.frame(team, attendance, arrests)
-soccer.model.offset = glm(arrests~offset(attendance), data = soccer, family = poisson)
-soccer.model = glm(arrests~attendance, data = soccer, family = poisson)
-summary(soccer.model)
+soccer.model = glm(arrests~offset(log(attendance)), data = soccer, family = poisson)
+summary(soccer.model.offset)
 
 plot(soccer$attendance, soccer$arrests)
 lines(predict(soccer.model, type = "response"))
