@@ -27,13 +27,12 @@ cat("95% confidence interval for beta is (",CI[1],", ",CI[2],").", sep = "")
 cat("95% confidence interval for multiplicative effect on mean is (",exp(CI[1]),", ",exp(CI[2]),").", sep = "")
 
 #Wald test (d)
-# Isn'd wald test 
 z = g$coef[2,1] / g$coef[2,2]
 p_val = 2 * (1-pnorm(z))
 p_val = g$coef[2,4]
 cat("p-value of the test is ",g$coef[2,4])
 
-#Log likely food ratio test (e) 
+#Log likely hood ratio test (e) 
 # likely food? do you use speech recognition to code ;)
 LLstat=(g$null.deviance-g$deviance)
 p_val=1-pchisq(LLstat, 1)
@@ -46,9 +45,12 @@ p_val=1-pchisq(LLstat, 1)
 library(MASS)
 
 mod.fit.nb=glm.nb(formula = Satellites ~ Weight, data = crab, link = log)
+predict(mod.fit.nb,  data.frame(Weight=2.44),type="response")
 
-summary(mod.fit.nb)
+g=summary(mod.fit.nb)
 
+CI = g$coef[2,1] + (qnorm(1-0.025) * g$coef[2,2] * c(-1,1))
+cat("95% confidence interval for beta is (",CI[1],",",CI[2],").")
 
 # how to creat a plot, lowess curve is a smoothing of the data 
 
@@ -67,7 +69,10 @@ summary(mod.fit.nb)
 team=c('Aston','Bradford','Leeds','Bournemouth','West','Hudderfield','Middelsbro','Birmingham','Ipswich','Leicester','Blackburn','Crystal','Shrewbury','Swindon','Sheffield','Stoke','Barnsley','Millwall','Hull','Manchester','Plymouth','Reading','Oldham')
 attendance=c(404,286,443,169,222,150,321,189,258,223,211,215,108,210,224,211,168,185,158,429,226,150,148)
 arrests=c(308,197,184,149,132,126,110,101,99,81,79,78,68,67,60,57,55,44,38,35,29,20,19)
-prop.yes=yes/(yes+no)
+
+soccer.loglin=glm(arrests~offset(log(attendance)),family=poisson, data=soccer)
+soocer.loglin=glm(arrests~I,offset(log(attendance)),family=poisson, data=soccer)
+
 
 #### Peter code. Doesn't work ####
 soccer=data.frame(team, attendance, arrests)
