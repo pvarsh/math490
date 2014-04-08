@@ -69,18 +69,20 @@ attendance=c(404,286,443,169,222,150,321,189,258,223,211,215,108,210,224,211,168
 arrests=c(308,197,184,149,132,126,110,101,99,81,79,78,68,67,60,57,55,44,38,35,29,20,19)
 prop.yes=yes/(yes+no)
 
-#### Peter code. Doesn't work ####
 soccer=data.frame(team, attendance, arrests)
 soccer.model = glm(arrests~offset(log(attendance)), data = soccer, family = poisson)
-summary(soccer.model.offset)
+summary(soccer.model)
 
-plot(soccer$attendance, soccer$arrests)
-lines(predict(soccer.model, type = "response"))
-lines(predict(soccer.model.offset, type = "response"))
-lines()
-curve(predict(soccer.model, data.frame(width=(300))))
+plot(x = soccer$attendance, y = soccer$arrests)
+curve(expr = exp(coef(soccer.model)[1])*x, col = "darkorange1", add = TRUE, lty = 1, lwd=2)
+soccer.lm = lm(arrests~attendance, data = soccer) # comparing with regular regression
+abline(soccer.lm, lty = 2) # comparing with regular regression
 
-#### End of Peter code. ####
+soccer.res = residuals(soccer.model)
+names(soccer.res) = soccer$team
+soccer.res
+cat("\nTeams with large residuals:\n")
+print(soccer.res[abs(soccer.res) > 8])
 
 # Problem 3.20
 age = c("35-44", "45-54", "55-64", "65-74", "75-84")
