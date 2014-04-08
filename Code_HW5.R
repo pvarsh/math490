@@ -1,7 +1,7 @@
 ################################################################################
 ### Homework Chapter 3-2
 ### Mirai Furukawa, Scott Thomas, Peter Varshavsky
-### 2014/03/20
+### 2014/04/10
 ### Questions: 3.13,3.14,3.18,3.20
 
 ### Question 3.13
@@ -16,9 +16,10 @@ crab=horseshoecrabs
 mod.fit<-glm(Satellites~Weight, data=crab, family=poisson)
 g=summary(mod.fit)
 
-cat("The prediction equation is log(Y) =", g$coef[1,1], "+", g$coef[2,1],"x")
+cat("The prediction equation is log(E[Y]) =", g$coef[1,1], "+", g$coef[2,1],"x")
 
 #prediction (b)
+predict(mod.fit,  data.frame(Weight=2.44))
 predict(mod.fit,  data.frame(Weight=2.44), type="response")
 
 #CI for beta (c)
@@ -32,8 +33,8 @@ p_val = 2 * (1-pnorm(z))
 p_val = g$coef[2,4]
 cat("p-value of the test is ",g$coef[2,4])
 
-#Log likely hood ratio test (e) 
-# likely food? do you use speech recognition to code ;)
+#Log likelyhood ratio test (e) 
+# likely food? do you use speech recognition to code ;) #No I don't
 LLstat=(g$null.deviance-g$deviance)
 p_val=1-pchisq(LLstat, 1)
 
@@ -49,8 +50,16 @@ predict(mod.fit.nb,  data.frame(Weight=2.44),type="response")
 
 g=summary(mod.fit.nb)
 
+# prediction equation and dispersion parameter (a)
+cat("The prediction equation is log(E[Y]) =", g$coef[1,1], "+", g$coef[2,1],"x")
+cat("The estimate of the dispersion parameter is",(1/g$theta))
+CI = g$theta + (qnorm(1-0.025) * g$SE.theta * c(-1,1))
+CI = c(1/CI[2],1/CI[1])
+cat("95% confidence interval for dispersion parameter, D, is (",CI[1],", ",CI[2],").", sep = "")
+
+# Confidence interval for beta (b)
 CI = g$coef[2,1] + (qnorm(1-0.025) * g$coef[2,2] * c(-1,1))
-cat("95% confidence interval for beta is (",CI[1],",",CI[2],").")
+cat("95% confidence interval for beta is (",CI[1],", ",CI[2],").", sep = "")
 
 # how to creat a plot, lowess curve is a smoothing of the data 
 
@@ -66,27 +75,41 @@ cat("95% confidence interval for beta is (",CI[1],",",CI[2],").")
 
 ### Question 3.18
 
+# Creating a data
 team=c('Aston','Bradford','Leeds','Bournemouth','West','Hudderfield','Middelsbro','Birmingham','Ipswich','Leicester','Blackburn','Crystal','Shrewbury','Swindon','Sheffield','Stoke','Barnsley','Millwall','Hull','Manchester','Plymouth','Reading','Oldham')
 attendance=c(404,286,443,169,222,150,321,189,258,223,211,215,108,210,224,211,168,185,158,429,226,150,148)
 arrests=c(308,197,184,149,132,126,110,101,99,81,79,78,68,67,60,57,55,44,38,35,29,20,19)
-
-soccer.loglin=glm(arrests~offset(log(attendance)),family=poisson, data=soccer)
-soocer.loglin=glm(arrests~I,offset(log(attendance)),family=poisson, data=soccer)
-
-
-#### Peter code. Doesn't work ####
 soccer=data.frame(team, attendance, arrests)
-soccer.model.offset = glm(arrests~offset(attendance), data = soccer, family = poisson)
-soccer.model = glm(arrests~attendance, data = soccer, family = poisson)
-summary(soccer.model)
 
+# Fitting the model (b)
+soccer.loglin=glm(arrests~offset(log(attendance)),family=poisson, data=soccer)
+g=summary(soccer.loglin)
+
+# Plotting and oberlaying prediction equations
 plot(soccer$attendance, soccer$arrests)
-lines(predict(soccer.model, type = "response"))
-lines(predict(soccer.model.offset, type = "response"))
-lines()
-curve(predict(soccer.model, data.frame(width=(300))))
+#plot(soccer$attendance, predict(soccer.loglin,  data.frame(attendance),type="response"))
+curve(expr = exp(coef(soccer.loglin)[1])*x, col = "darkorange1", add = TRUE, lty = 1, lwd=2)
+
+#predict(soccer.loglin,  data.frame(attendance),type="response")
+g$deviance.resid
+
+
+
+# #### Peter code. Doesn't work ####
+# soccer=data.frame(team, attendance, arrests)
+# soccer.model.offset = glm(arrests~offset(attendance), data = soccer, family = poisson)
+# soccer.model = glm(arrests~attendance, data = soccer, family = poisson)
+# summary(soccer.model)
+# 
+# plot(soccer$attendance, soccer$arrests)
+# lines(predict(soccer.model, type = "response"))
+# lines(predict(soccer.model.offset, type = "response"))
+# lines()
+# curve(predict(soccer.model, data.frame(width=(300))))
 
 #### End of Peter code. ####
+
+
 
 # Problem 3.20
 age = c("35-44", "45-54", "55-64", "65-74", "75-84")
