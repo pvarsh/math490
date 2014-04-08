@@ -83,5 +83,11 @@ curve(predict(soccer.model, data.frame(width=(300))))
 
 #### End of Peter code. ####
 
-3.20
+# Problem 3.20
+age = c("35-44", "45-54", "55-64", "65-74", "75-84")
+years.nsm = c(18793, 10673, 5710, 2585, 1462)
+years.sm = c(52407, 43248, 28612, 12663, 5317)
+deaths.nsm = c(2, 12, 28, 28, 31)
+deaths.sm = c(32, 104, 206, 186, 102)
+smoker.deaths = data.frame(age, years.nsm, years.sm, deaths.nsm, deaths.sm)
 
