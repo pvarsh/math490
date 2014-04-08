@@ -73,7 +73,7 @@ soccer=data.frame(team, attendance, arrests)
 soccer.model = glm(arrests~offset(log(attendance)), data = soccer, family = poisson)
 summary(soccer.model)
 
-plot(x = soccer$attendance, y = soccer$arrests)
+plot(x = soccer$attendance, y = soccer$arrests, main = "Soccer arrests", xlab = "Attendance", ylab="Arrests")
 curve(expr = exp(coef(soccer.model)[1])*x, col = "darkorange1", add = TRUE, lty = 1, lwd=2)
 soccer.lm = lm(arrests~attendance, data = soccer) # comparing with regular regression
 abline(soccer.lm, lty = 2) # comparing with regular regression
@@ -83,6 +83,10 @@ names(soccer.res) = soccer$team
 soccer.res
 cat("\nTeams with large residuals:\n")
 print(soccer.res[abs(soccer.res) > 8])
+
+soccer.model.nb = glm.nb(arrests~offset(log(attendance)), data = soccer)
+summary(soccer.model.nb)
+curve(expr = exp(coef(soccer.model.nb)[1])*x, col = "cyan2", add = TRUE, lty = 10, lwd = 2)
 
 # Problem 3.20
 age = c("35-44", "45-54", "55-64", "65-74", "75-84")
