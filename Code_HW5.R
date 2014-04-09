@@ -93,6 +93,17 @@ curve(expr = exp(coef(soccer.loglin)[1])*x, col = "darkorange1", add = TRUE, lty
 #predict(soccer.loglin,  data.frame(attendance),type="response")
 g$deviance.resid
 
+# Negative binomial (d)
+soccer.nb=glm.nb(formula = arrests~offset(log(attendance)), data=soccer, link=log)
+g=summary(soccer.nb)
+cat("The estimate of the dispersion parameter is",(1/g$theta))
+CI = g$theta + (qnorm(1-0.025) * g$SE.theta * c(-1,1))
+CI = c(1/CI[2],1/CI[1])
+cat("95% confidence interval for dispersion parameter, D, is (",CI[1],", ",CI[2],").", sep = "")
+
+
+
+
 
 
 # #### Peter code. Doesn't work ####
@@ -134,3 +145,19 @@ smoke1$rate = smoke1$deaths * 1000 / smoke1$years
 smoke1.pois = glm(rate ~ age + smoker, family = poisson(link = log), data = smoke1)
 smoke.pois = glm(rate)
 ### the above code is likely not correct (Peter)
+
+
+
+
+
+
+age = c("35-44","35-44", "45-54","45-54", "55-64","55-64", "65-74","65-74", "75-84","75-84")
+smoke = c("YES","No","YES","No","YES","No","YES","No","YES","No")
+person = c(52407,18793,43428,10673,28612,5710,12663,2585,5317,1462)
+death = c(32,2,104,12,206,28,186,28,102,31)
+table3.9 = data.frame(age, smoke, person, death)
+
+table3.9.pos = glm(death ~ age + smoke, data=table3.9, family=poisson)
+summary(table3.9.pos)
+
+predict(table3.9.pos)
