@@ -81,6 +81,14 @@ curve(expr = exp(coef(soccer.loglin)[1])*x, col = "darkorange1", add = TRUE, lty
 #predict(soccer.loglin,  data.frame(attendance),type="response")
 g$deviance.resid
 
+h=lm.influence(model=soccer.loglin)$h
+soccer.std.res = g$deviance.resid / sqrt(predict(soccer.loglin,  data.frame(attendance),type="response") * (1-h))
+soccer.pearson.res = (arrests - predict(soccer.loglin,  data.frame(attendance),type="response")) / sqrt(predict(soccer.loglin,  data.frame(attendance),type="response"))
+
+
+
+# refer snoring inference_R
+
 # Negative binomial (d)
 soccer.nb=glm.nb(formula = arrests~offset(log(attendance)), data=soccer, link=log)
 g=summary(soccer.nb)
@@ -117,8 +125,6 @@ smoke.pois = glm(rate)
 
 
 
-
-
 age = c("35-44","35-44", "45-54","45-54", "55-64","55-64", "65-74","65-74", "75-84","75-84")
 smoke = c("YES","No","YES","No","YES","No","YES","No","YES","No")
 person = c(52407,18793,43428,10673,28612,5710,12663,2585,5317,1462)
@@ -128,11 +134,9 @@ table3.9 = data.frame(age, smoke, person, death)
 table3.9.pos = glm(death ~ age + smoke, data=table3.9, family=poisson)
 summary(table3.9.pos)
 
-pos.pre = exp(predict(table3.9.pos))
-ratio.pre = pos.pre / person * 1000
-ratio.pre[1]/ratio.pre[2]
-ratio.pre[3]/ratio.pre[4]
-ratio.pre[5]/ratio.pre[6]
-ratio.pre[7]/ratio.pre[8]
-ratio.pre[9]/ratio.pre[10]
+# in class
+table3.9 = data.frame(age, smoke, person, death)
+
+table3.9.pos = glm(death ~ age*smoke,offest=log(person/1000), data=table3.9, family=poisson)
+summary(table3.9.pos)
 
