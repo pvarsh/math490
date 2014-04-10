@@ -23,7 +23,8 @@ predict(mod.fit,  data.frame(Weight=2.44))
 predict(mod.fit,  data.frame(Weight=2.44), type="response")
 
 #CI for beta (c)
-CI = g$coef[2,1] + (qnorm(1-0.025) * g$coef[2,2] * c(-1,1)) # this is a two-sided confidence interval, so we need to have 1-alpha/2, where alpha = 0.5
+alpha = 0.05
+CI = g$coef[2,1] + (qnorm(1-alpha/2) * g$coef[2,2] * c(-1,1)) # this is a two-sided confidence interval, so we need to have 1-alpha/2, where alpha = 0.5
 cat("95% confidence interval for beta is (",CI[1],", ",CI[2],").", sep = "")
 cat("95% confidence interval for multiplicative effect on mean is (",exp(CI[1]),", ",exp(CI[2]),").", sep = "")
 
@@ -34,10 +35,9 @@ p_val = g$coef[2,4]
 cat("p-value of the test is ",g$coef[2,4])
 
 #Log likelyhood ratio test (e) 
-# likely food? do you use speech recognition to code ;) #No I don't
 LLstat=(g$null.deviance-g$deviance)
 p_val=1-pchisq(LLstat, 1)
-
+p_val
 
 ### Question 3.14
 
@@ -73,19 +73,16 @@ soccer=data.frame(team, attendance, arrests)
 soccer.loglin=glm(arrests~offset(log(attendance)),family=poisson, data=soccer)
 g=summary(soccer.loglin)
 
-# Plotting and oberlaying prediction equations
+# Plotting and overlaying prediction equations (c)
 plot(soccer$attendance, soccer$arrests)
-#plot(soccer$attendance, predict(soccer.loglin,  data.frame(attendance),type="response"))
 curve(expr = exp(coef(soccer.loglin)[1])*x, col = "darkorange1", add = TRUE, lty = 1, lwd=2)
 
-#predict(soccer.loglin,  data.frame(attendance),type="response")
+
 g$deviance.resid
 
 h=lm.influence(model=soccer.loglin)$h
 soccer.std.res = g$deviance.resid / sqrt(predict(soccer.loglin,  data.frame(attendance),type="response") * (1-h))
-soccer.pearson.res = (arrests - predict(soccer.loglin,  data.frame(attendance),type="response")) / sqrt(predict(soccer.loglin,  data.frame(attendance),type="response"))
-
-
+soccer.std.res
 
 # refer snoring inference_R
 
@@ -98,45 +95,50 @@ CI = c(1/CI[2],1/CI[1])
 cat("95% confidence interval for dispersion parameter, D, is (",CI[1],", ",CI[2],").", sep = "")
 
 
-# Problem 3.20
-age = c("35-44", "45-54", "55-64", "65-74", "75-84")
-years.nsm = c(18793, 10673, 5710, 2585, 1462)
-years.sm = c(52407, 43248, 28612, 12663, 5317)
-deaths.nsm = c(2, 12, 28, 28, 31)
-deaths.sm = c(32, 104, 206, 186, 102)
-smoke = data.frame(age, years.nsm, years.sm, deaths.nsm, deaths.sm)
-
-smoke$rate.nsm = smoke$deaths.nsm / years.nsm * 1000
-smoke$rate.sm = smoke$deaths.sm / years.sm * 1000
-smoke$rate.ratio = smoke$rate.sm / smoke$rate.nsm
-smoke
-
-### the following code is likely not correct (Peter)
-smoke1 = data.frame(age,
-                    years = c(smoke$years.nsm, smoke$years.sm),
-                    deaths = c(deaths.nsm, deaths.sm),
-                    smoker = c(rep(0, length(years.nsm)), rep(1, length(years.sm))))
-
-smoke1$rate = smoke1$deaths * 1000 / smoke1$years
-smoke1.pois = glm(rate ~ age + smoker, family = poisson(link = log), data = smoke1)
-smoke.pois = glm(rate)
-### the above code is likely not correct (Peter)
 
 
 
 
-age = c("35-44","35-44", "45-54","45-54", "55-64","55-64", "65-74","65-74", "75-84","75-84")
-smoke = c("YES","No","YES","No","YES","No","YES","No","YES","No")
-person = c(52407,18793,43428,10673,28612,5710,12663,2585,5317,1462)
-death = c(32,2,104,12,206,28,186,28,102,31)
-table3.9 = data.frame(age, smoke, person, death)
 
-table3.9.pos = glm(death ~ age + smoke, data=table3.9, family=poisson)
-summary(table3.9.pos)
-
-# in class
-table3.9 = data.frame(age, smoke, person, death)
-
-table3.9.pos = glm(death ~ age*smoke,offest=log(person/1000), data=table3.9, family=poisson)
-summary(table3.9.pos)
-
+# # Problem 3.20
+# age = c("35-44", "45-54", "55-64", "65-74", "75-84")
+# years.nsm = c(18793, 10673, 5710, 2585, 1462)
+# years.sm = c(52407, 43248, 28612, 12663, 5317)
+# deaths.nsm = c(2, 12, 28, 28, 31)
+# deaths.sm = c(32, 104, 206, 186, 102)
+# smoke = data.frame(age, years.nsm, years.sm, deaths.nsm, deaths.sm)
+# 
+# smoke$rate.nsm = smoke$deaths.nsm / years.nsm * 1000
+# smoke$rate.sm = smoke$deaths.sm / years.sm * 1000
+# smoke$rate.ratio = smoke$rate.sm / smoke$rate.nsm
+# smoke
+# 
+# ### the following code is likely not correct (Peter)
+# smoke1 = data.frame(age,
+#                     years = c(smoke$years.nsm, smoke$years.sm),
+#                     deaths = c(deaths.nsm, deaths.sm),
+#                     smoker = c(rep(0, length(years.nsm)), rep(1, length(years.sm))))
+# 
+# smoke1$rate = smoke1$deaths * 1000 / smoke1$years
+# smoke1.pois = glm(rate ~ age + smoker, family = poisson(link = log), data = smoke1)
+# smoke.pois = glm(rate)
+# ### the above code is likely not correct (Peter)
+# 
+# 
+# 
+# 
+# age = c("35-44","35-44", "45-54","45-54", "55-64","55-64", "65-74","65-74", "75-84","75-84")
+# smoke = c("YES","No","YES","No","YES","No","YES","No","YES","No")
+# person = c(52407,18793,43428,10673,28612,5710,12663,2585,5317,1462)
+# death = c(32,2,104,12,206,28,186,28,102,31)
+# table3.9 = data.frame(age, smoke, person, death)
+# 
+# table3.9.pos = glm(death ~ age + smoke, data=table3.9, family=poisson)
+# summary(table3.9.pos)
+# 
+# # in class
+# table3.9 = data.frame(age, smoke, person, death)
+# 
+# table3.9.pos = glm(death ~ age*smoke,offest=log(person/1000), data=table3.9, family=poisson)
+# summary(table3.9.pos)
+# 
