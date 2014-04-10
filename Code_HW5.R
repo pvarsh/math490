@@ -61,18 +61,6 @@ cat("95% confidence interval for dispersion parameter, D, is (",CI[1],", ",CI[2]
 CI = g$coef[2,1] + (qnorm(1-0.025) * g$coef[2,2] * c(-1,1))
 cat("95% confidence interval for beta is (",CI[1],", ",CI[2],").", sep = "")
 
-# how to creat a plot, lowess curve is a smoothing of the data 
-
-# plot(table.crab[,1], table.crab[,4], type="n", xlab="Width", ylab="Mean Number of satellites")
-# curve(expr = coef(mod.ident)[1]+coef(mod.ident)[2]*x, col = "dodgerblue1", add = TRUE, lty = 1,  lwd=2)
-# curve(predict(mod.fit,  data.frame(width=x),type="response"), lty=1, col = "magenta", add = TRUE,  lwd=2)
-# curve(predict(mod.fit.nb,  data.frame(width=x),type="response"), lty=2, col = "darkorchid3", add = TRUE,  lwd=2)
-# lines(lowess(crab$width, crab$satellite, f=2/3, iter=0), lty=4,col="darkgrey", lwd=2)
-# points(table.crab[,1], table.crab[,4], pch=1)
-# legend(22, 5,  c( "linear","poisson","negative binom","smoothing", "group means"), lty=c(1,1,2,4,-1), pch=c(-1, -1, -1,-1, 1), col=c("dodgerblue1", "magenta", "darkorchid3", "darkgrey", "black")) 
-# 
-
-
 ### Question 3.18
 
 # Creating a data
@@ -100,26 +88,6 @@ cat("The estimate of the dispersion parameter is",(1/g$theta))
 CI = g$theta + (qnorm(1-0.025) * g$SE.theta * c(-1,1))
 CI = c(1/CI[2],1/CI[1])
 cat("95% confidence interval for dispersion parameter, D, is (",CI[1],", ",CI[2],").", sep = "")
-
-
-
-
-
-
-# #### Peter code. Doesn't work ####
-# soccer=data.frame(team, attendance, arrests)
-# soccer.model.offset = glm(arrests~offset(attendance), data = soccer, family = poisson)
-# soccer.model = glm(arrests~attendance, data = soccer, family = poisson)
-# summary(soccer.model)
-# 
-# plot(soccer$attendance, soccer$arrests)
-# lines(predict(soccer.model, type = "response"))
-# lines(predict(soccer.model.offset, type = "response"))
-# lines()
-# curve(predict(soccer.model, data.frame(width=(300))))
-
-#### End of Peter code. ####
-
 
 
 # Problem 3.20
@@ -160,4 +128,11 @@ table3.9 = data.frame(age, smoke, person, death)
 table3.9.pos = glm(death ~ age + smoke, data=table3.9, family=poisson)
 summary(table3.9.pos)
 
-predict(table3.9.pos)
+pos.pre = exp(predict(table3.9.pos))
+ratio.pre = pos.pre / person * 1000
+ratio.pre[1]/ratio.pre[2]
+ratio.pre[3]/ratio.pre[4]
+ratio.pre[5]/ratio.pre[6]
+ratio.pre[7]/ratio.pre[8]
+ratio.pre[9]/ratio.pre[10]
+
