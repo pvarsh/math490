@@ -6,6 +6,13 @@
 
 
 
+### Question 4.16
+
+library(icda)
+data(MBdrink)
+
+
+
 
 ### Question 4.24
 
