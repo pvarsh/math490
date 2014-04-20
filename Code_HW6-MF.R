@@ -11,4 +11,17 @@
 
 library(icda)
 data(throat)
-throat.24 = throat
+
+summary(throat) #T and Y are numeric
+throat = transform(throat, T= as.factor(T),Y= as.factor(Y))
+summary(throat) #Now, T and Y are categorical
+
+#Fitting the main effects model
+throat.mod = glm(Y ~ D + T, data=throat, family=binomial)
+g=summary(throat.mod)
+
+#Fitting the model with interaction
+throat.modi = glm(Y ~ D * T, data=throat, family=binomial)
+gi=summary(throat.modi)
+
+predict(throat.modi,type="response")
