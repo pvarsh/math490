@@ -7,9 +7,18 @@
 
 
 ### Question 4.16
-
+install.packages("reshape2")
+library(reshape2)
 library(icda)
 data(MBdrink)
+
+### refering AZT_use_AIDS.R.
+# using melt and cast to create data in the format we want
+#az=melt(AZT)
+#azwide=dcast(az, ... ~Symptoms )
+
+MB = melt(MBdrink)
+MB = dcast(MB, ... ~Drink)
 
 
 
