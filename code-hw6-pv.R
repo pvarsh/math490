@@ -67,3 +67,25 @@ odds5/odds0
 ### PROBLEM 4.11
 2.02/1.71
 .72/.41
+
+### PROBLEM 4.14
+interc = -1.0736
+azt = -0.7195
+race = 0.0555
+beta = c(azt, race)
+xval10 = c(1, 0)
+xval00 = c(0, 0)
+xval11 = c(1, 1)
+xval01 = c(0, 1)
+
+azt.SE = 0.2790
+alpha = 0.05
+z = qnorm(1-alpha/2)
+azt.CI = c(azt - azt.SE*z, azt + azt.SE*z)
+
+#risk at bottom of CI
+beta = c(azt.CI[1], race)
+logit.inv(interc, beta, xval10) / (1 - logit.inv(interc, beta, xval10))
+
+beta = c(azt.CI[2], race)
+logit.inv(interc, beta, xval10) / (1 - logit.inv(interc, beta, xval10))
