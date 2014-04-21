@@ -20,7 +20,12 @@ data(MBdrink)
 MB = melt(MBdrink)
 MB = dcast(MB, ... ~Drink)
 
+MB.fit=glm(cbind(Often,Rarely) ~ EI + SN + TF + JP, family=binomial, data=MB)
+MB.fit
 
+### Question 4.17
+MB.fit2=glm(cbind(Often,Rarely) ~ EI + TF, family=binomial, data=MB)
+MB.fit2
 
 
 ### Question 4.24
