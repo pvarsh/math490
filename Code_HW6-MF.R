@@ -23,6 +23,8 @@ MB = dcast(MB, ... ~Drink)
 MB.fit=glm(cbind(Often,Rarely) ~ EI + SN + TF + JP, family=binomial, data=MB)
 MB.fit
 
+exp(-1.8559)/(1 + exp(-1.8559))
+
 ### Question 4.17
 MB.fit2=glm(cbind(Often,Rarely) ~ EI + TF, family=binomial, data=MB)
 MB.fit2
