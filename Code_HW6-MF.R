@@ -29,6 +29,13 @@ exp(-1.8559)/(1 + exp(-1.8559))
 MB.fit2=glm(cbind(Often,Rarely) ~ EI + TF, family=binomial, data=MB)
 MB.fit2
 
+alpha = 0.05
+z = qnorm(1-alpha/2)
+EI = 0.5805
+EI.SE = 0.2160
+EI.CI = EI + EI.SE*c(-z, z)
+EI.OR.CI = exp(EI.CI) #E/I Odds Ratio Confidence Interval
+print(EI.OR.CI)
 
 ### Question 4.24
 
