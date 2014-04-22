@@ -47,7 +47,7 @@ exp(intercept + LI.coef*x2)/(1 + exp(intercept + LI.coef*x2))
 
 
 ### PROBLEM 4.2
-alpha = 0.05
+alpha = 0.01
 #b. Construct the confidence interval
 exp(c(LI.coef - qnorm(1-alpha/2)*sum4.1$coef[2,2], LI.coef + qnorm(1-alpha/2)*sum4.1$coef[2,2]))
 
@@ -69,23 +69,13 @@ odds5/odds0
 .72/.41
 
 ### PROBLEM 4.14
+
 interc = -1.0736
 azt = -0.7195
 race = 0.0555
-beta = c(azt, race)
-xval10 = c(1, 0)
-xval00 = c(0, 0)
-xval11 = c(1, 1)
-xval01 = c(0, 1)
 
 azt.SE = 0.2790
 alpha = 0.05
 z = qnorm(1-alpha/2)
 azt.CI = c(azt - azt.SE*z, azt + azt.SE*z)
-
-#risk at bottom of CI
-beta = c(azt.CI[1], race)
-logit.inv(interc, beta, xval10) / (1 - logit.inv(interc, beta, xval10))
-
-beta = c(azt.CI[2], race)
-logit.inv(interc, beta, xval10) / (1 - logit.inv(interc, beta, xval10))
+odds.ratio.CI = exp(azt.CI)
