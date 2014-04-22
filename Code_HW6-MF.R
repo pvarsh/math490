@@ -43,7 +43,7 @@ library(icda)
 data(throat)
 
 summary(throat) #T and Y are numeric
-throat = transform(throat, T= as.factor(T),Y= as.factor(Y))
+throat = transform(throat, T = as.factor(T), Y= as.factor(Y))
 summary(throat) #Now, T and Y are categorical
 
 #Fitting the main effects model
