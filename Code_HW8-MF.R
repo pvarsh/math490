@@ -55,8 +55,13 @@ predict(q15.fit1)
 
 ### Question 5.19
 
+
+
 # b)
 pchisq(21.7, 6, lower.tail=FALSE)
+
+# e) (PV)
+(512 + 89) / (313 + 19)
 
 
 ### Question 5.22
