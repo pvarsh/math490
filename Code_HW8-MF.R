@@ -26,8 +26,40 @@ q15
 q15.fit1=glm(cbind(missing,found)~age+gender, family=binomial, data=q15)
 summary(q15.fit1)
 
+##########Chisq and G^2 tests##############################################
+pchisq(chisqstat(q15.fit1), df.residual(q15.fit1), lower.tail=FALSE)
+pchisq(deviance(q15.fit1), df.residual(q15.fit1), lower.tail=FALSE)
+
+
 
 ### Question 5.19
 
 # b)
 pchisq(21.7, 6, lower.tail=FALSE)
+
+
+### Question 5.22
+
+# b)
+y1=c(0,0,0,0,1,1,1,1)
+x1=c(10,20,30,40,60,70,80,90)
+q22=data.frame(y1,x1)
+
+q22.fit1=glm(y~x, family=binomial, data=q22)
+summary(q22.fit1)
+
+# c)
+y2=c(0,0,0,0,0,1,1,1,1,1)
+x2=c(10,20,30,40,50,50,60,70,80,90)
+q22=data.frame(y2,x2)
+
+q22.fit2=glm(y2~x2, family=binomial, data=q22)
+summary(q22.fit2)
+
+# d)
+y3=c(0,0,0,0,1,0,1,1,1,1)
+x3=c(10,20,30,40,49.9,50.1,60,70,80,90)
+q22=data.frame(y3,x3)
+
+q22.fit2=glm(y3~x3, family=binomial, data=q22)
+summary(q22.fit2)
