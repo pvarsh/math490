@@ -71,7 +71,7 @@ y1=c(0,0,0,0,1,1,1,1)
 x1=c(10,20,30,40,60,70,80,90)
 q22=data.frame(y1,x1)
 
-q22.fit1=glm(y~x, family=binomial, data=q22)
+q22.fit1=glm(y1~x1, family=binomial, data=q22)
 summary(q22.fit1)
 
 # c)
