@@ -91,7 +91,7 @@ x = as.matrix(df[2:(p + 2)]) # predictors
 y = as.numeric(df[[1]])
 
 # fitting lasso regression
-mod.lasso = glmnet(x, y, family = "binomial")
+mod.lasso = glmnet(x, y, family = "binomial", alpha = 1) # parameter alpha specifies the type of regularization, alpha = 0 for ridge, alpha = 1 for lasso
 par(mfrow = c(1,1)) # one row one column plot layout
 plot(mod.lasso) # plots graph of coefficients as a function of L1 norm
 coef(mod.lasso, 0.09)
